@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MitraMind</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#edf2f6;--card:#fff;--tx:#232f47;--mu:#4f5d76;--ac:#2f7f86;--ac2:#d9ecee;--bd:#d6dfe8;--g:#d8efdc;--y:#fbe8c4;--r:#f8d6d3;--b:#d6e3f8;--w:#e6e9ee;--b1:#cfe8ea;--b2:#e3ddf5;--b3:#f9e6d3;--sun:#fff0cc;--cl:#fff;--st:0;--h1:#cfe6e3;--h2:#b8dbd3;--h3:#a3cfc4;--photo:none;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141b28;--card:#1d2738;--tx:#e9eef7;--mu:#9fadc4;--ac:#6cc4cb;--ac2:#25414a;--bd:#2c3a52;--g:#23402c;--y:#4a3d1f;--r:#4a2a29;--b:#24365a;--w:#2a3447;--b1:#1d4a53;--b2:#2d2a57;--b3:#3b2f3d;--sun:#e9ecf7;--cl:#5b6f99;--st:.9;--h1:#22384a;--h2:#1b2d3f;--h3:#142333;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#141b28;--card:#1d2738;--tx:#e9eef7;--mu:#9fadc4;--ac:#6cc4cb;--ac2:#25414a;--bd:#2c3a52;--g:#23402c;--y:#4a3d1f;--r:#4a2a29;--b:#24365a;--w:#2a3447;--b1:#1d4a53;--b2:#2d2a57;--b3:#3b2f3d;--sun:#e9ecf7;--cl:#5b6f99;--st:.9;--h1:#22384a;--h2:#1b2d3f;--h3:#142333;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:17px/1.55 Nunito,system-ui,sans-serif;min-height:100vh}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(40% 35% at 20% 25%,var(--b1),transparent 70%),radial-gradient(35% 40% at 80% 18%,var(--b2),transparent 70%),radial-gradient(45% 40% at 70% 85%,var(--b3),transparent 70%),radial-gradient(30% 30% at 15% 80%,var(--b2),transparent 70%)}
+@media(prefers-reduced-motion:no-preference){body::before{animation:drift 45s ease-in-out infinite alternate}@keyframes drift{to{transform:translate(4%,3%) scale(1.1) rotate(3deg)}}}
+#scene{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}.st{opacity:var(--st)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:center/cover var(--photo);opacity:.4}
+@media(prefers-reduced-motion:no-preference){.cl{animation:cd 90s ease-in-out infinite alternate}.c2{animation-duration:120s}.c3{animation-duration:150s}@keyframes cd{to{transform:translateX(140px)}}}
+body.night{background:#0b1020}body.night::before,body.night::after,body.night #scene{display:none}
+main{max-width:620px;margin:0 auto;padding:18px 16px 60px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:12px 16px;max-width:620px;margin:0 auto}
+nav button{flex:none;border:0;background:transparent;color:var(--mu);font:inherit;font-weight:600;padding:8px 14px;border-radius:99px;cursor:pointer}
+nav button.on{background:var(--ac2);color:var(--ac)}
+h1{font-size:2.4rem;line-height:1.1;margin:.3em 0}h2{font-size:1.6rem;margin:.2em 0 .4em}h3{font-size:1.05rem;margin:1.4em 0 .5em}
+.mu{color:var(--mu)}
+.card{background:color-mix(in srgb,var(--card) 85%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--bd);border-radius:22px;padding:20px;margin:14px 0}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;border:0;border-radius:18px;padding:16px;font:inherit;font-weight:800;background:var(--ac);color:var(--bg);cursor:pointer;margin:10px 0}
+.btn.sec{background:var(--ac2);color:var(--ac)}
+.mood{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:18px;padding:18px;margin:10px 0;font:inherit;font-weight:700;color:var(--tx);cursor:pointer;text-align:left;font-size:1.1rem}
+.chip{border:1.5px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;padding:9px 15px;border-radius:99px;margin:0 6px 8px 0;cursor:pointer}
+.chip.on{background:var(--ac2);border-color:var(--ac);color:var(--ac);font-weight:700}
+input,select{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);margin:4px 0 12px}
+label{font-weight:600;display:block}
+.big{font-size:1.9rem;line-height:1.3;font-weight:800;text-align:center;padding:40px 8px}
+.focus{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.bub{padding:11px 15px;border-radius:18px;margin:8px 0;max-width:85%}
+.bub.b{background:var(--card);border:1px solid var(--bd)}.bub.u{background:var(--ac);color:var(--bg);margin-left:auto}
+.row{display:flex;gap:8px}.row input{margin:0}.row .btn{width:auto;margin:0;padding:0 20px}
+ul{padding-left:20px;margin:.3em 0}a{color:var(--ac)}
+.bar{height:10px;border-radius:9px;background:var(--ac);margin:4px 0 12px}
+.prog{height:6px;border-radius:9px;background:var(--ac);width:0;margin:0 auto 20px;animation:p linear forwards}@keyframes p{to{width:100%}}
+.two{display:flex;gap:10px}.two input{flex:1;min-width:0}.two .btn{flex:1}
+.orb{width:110px;height:110px;border-radius:50%;background:var(--ac2);border:2px solid var(--ac);margin:30px auto 0}
+@media(prefers-reduced-motion:no-preference){.orb{animation:o 8s ease-in-out infinite}@keyframes o{50%{transform:scale(1.4)}}}
+.dim{color:#cdd7ee}.dim .btn.sec{background:#1d2740;color:#cdd7ee}.dim .prog{background:#6a7fb0}.dim .orb{background:#1d2740;border-color:#6a7fb0}.dim a{color:#9fb0d6}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media(prefers-reduced-motion:no-preference){main>*{animation:f .3s ease-out}@keyframes f{from{opacity:0}}}
+</style></head><body><svg id="scene" aria-hidden="true" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+<g class="st" fill="#fff"><circle cx="160" cy="90" r="2"/><circle cx="420" cy="140" r="1.6"/><circle cx="700" cy="70" r="2"/><circle cx="930" cy="130" r="1.6"/><circle cx="1260" cy="80" r="2"/><circle cx="1360" cy="240" r="1.6"/><circle cx="260" cy="270" r="1.6"/><circle cx="560" cy="230" r="1.8"/></g>
+<circle cx="1130" cy="170" r="120" fill="var(--sun)" opacity=".18"/><circle cx="1130" cy="170" r="85" fill="var(--sun)" opacity=".3"/><circle cx="1130" cy="170" r="55" fill="var(--sun)"/>
+<g class="cl c1" fill="var(--cl)" opacity=".7"><ellipse cx="280" cy="190" rx="90" ry="26"/><ellipse cx="340" cy="172" rx="60" ry="24"/><ellipse cx="225" cy="178" rx="50" ry="20"/></g>
+<g class="cl c2" fill="var(--cl)" opacity=".6"><ellipse cx="760" cy="120" rx="80" ry="22"/><ellipse cx="810" cy="104" rx="50" ry="20"/></g>
+<g class="cl c3" fill="var(--cl)" opacity=".5"><ellipse cx="560" cy="330" rx="100" ry="24"/><ellipse cx="620" cy="314" rx="60" ry="22"/></g>
+<path fill="var(--h1)" d="M0 560C220 480 420 520 640 500S1060 440 1440 520V800H0Z"/>
+<path fill="var(--h2)" d="M0 640C260 570 520 640 760 610S1190 560 1440 620V800H0Z"/>
+<g fill="var(--h3)" opacity=".85"><path d="M1170 625l16-48 16 48zM1175 640l11-34 11 34z"/><path d="M1225 615l14-42 14 42zM1230 630l9-30 9 30z"/><path d="M1285 610l16-50 16 50zM1290 626l11-36 11 36z"/><path d="M140 665l14-44 14 44zM145 680l9-32 9 32z"/><path d="M190 672l12-38 12 38z"/></g>
+<path fill="var(--h3)" d="M0 720C300 670 560 730 860 700S1220 670 1440 710V800H0Z"/>
+</svg><div id="nav"></div><main id="app"></main>
+<script>
+const K='mitramind_v1';
+const SIGNS=['Racing thoughts','Restlessness','Difficulty concentrating','Feeling overwhelmed','Becoming unusually quiet','Wanting to be alone','Feeling disconnected','Physical tension','Not knowing how to explain'];
+const SUP=[['comfort','❤️ Comfort me'],['ground','🌿 Help me ground myself'],['talk','💬 Let me talk'],['stay','🤫 Just stay with me'],['distract','🎧 Distract me'],['focus','🧠 Help me focus']];
+const AVOID=['Too many questions','Long explanations','Too many instructions','Being told to “calm down”','Talking about the problem immediately'];
+const NOW=['Racing thoughts','Something feels different','Suddenly scared','Overwhelmed','Disconnected','Don’t know'];
+const HELP=[['ground','Grounding'],['talk','Talking'],['stay','Quiet support'],['distract','Music / distraction'],['focus','Focusing on one thing'],['breathe','Breathing'],['sleep','Resting / sleep'],['none','Nothing helped']];
+const SCRIPT={
+ground:['Okay. One tiny thing first.','Put both feet on the floor.','Look around. Notice one thing you can see.','Now one thing you can hear.','Good. Stay here with me.'],
+comfort:['I’m here with you.','You’re not alone right now.','If it feels okay, rest a hand on your chest.','Let one slow breath out. Nothing to fix.'],
+stay:['I’m here. You don’t need to say anything.','We’ll just be quiet together.','Take as long as you need.'],
+talk:['I’m listening.','Say as much or as little as you like.','Tap below when you’re ready.'],
+distract:['Let’s give your mind something small to do.','Find five things in the room that are the same colour.','Now count backwards from 20 in twos.'],
+focus:['Pick one small thing.','Describe it in three words.','Give it two minutes. Just start.'],
+breathe:['Let’s breathe together.','Breathe in slowly… 1, 2, 3, 4.','Now out slowly… 1, 2, 3, 4, 5, 6.','In again… 1, 2, 3, 4.','Out… 1, 2, 3, 4, 5, 6.','One more. In…','And out. Good.'],
+sleep:['It’s okay to rest now.','Let your shoulders drop.','Let your jaw unclench.','Feel the bed or chair holding your weight.','Breathe out slowly. There’s nothing to solve right now.','Let your eyes close when you’re ready.']};
+const $=s=>document.querySelector(s);
+const fresh=()=>({profile:null,signs:[],support:[],avoid:[],contacts:[],episodes:[]});
+function load(){try{const d=JSON.parse(localStorage.getItem(K))||fresh();if(d.trusted&&!d.contacts)d.contacts=[d.trusted];delete d.trusted;d.contacts=d.contacts||[];return d}catch(e){return fresh()}}
+function save(){try{localStorage.setItem(K,JSON.stringify(S));canSave=true;if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){canSave=false}}
+let canSave=(()=>{try{localStorage.setItem('mm_t','1');localStorage.removeItem('mm_t');return true}catch(e){return false}})();
+let S=load(),v=S.profile?'home':'welcome',tmp={},D=null,chat=[],note='';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nm=()=>esc(S.profile?S.profile.name:'friend');
+const chips=(g,list,sel)=>list.map(x=>{const[k,l]=Array.isArray(x)?x:[x,x];return `<button class="chip ${sel.includes(k)?'on':''}" data-act="chip" data-g="${g}" data-v="${esc(k)}">${esc(l)}</button>`}).join('');
+const btn=(a,v,l,c='')=>`<button class="btn ${c}" data-act="${a}" data-v="${esc(v)}">${l}</button>`;
+
+function pick(sign){const c={};SUP.forEach(([k])=>c[k]=S.support.includes(k)?2:0);
+ S.episodes.forEach(e=>{if(e.helped in c&&e.after!=='Worse')c[e.helped]+=e.sign===sign?2:1});
+ const k=Object.keys(c).sort((a,b)=>c[b]-c[a])[0];return c[k]>0?k:'ground'}
+
+const num=c=>String(c.contact||'').replace(/[^\d+]/g,'');
+function reach(){if(!S.contacts.length)return `<div class="card"><b>Reaching someone</b><p>You haven’t added a trusted person yet. You can add people in My Calm Plan.</p></div>`;
+ return `<div class="card"><p class="mu">You choose who to contact. Tapping a button opens your phone’s dialer with the number ready.</p>${S.contacts.map(c=>num(c)?`<a class="btn" href="tel:${num(c)}">📞 Call ${esc(c.name)}</a><a class="btn sec" href="sms:${num(c)}">Text ${esc(c.name)}</a>`:`<p>${esc(c.name)}: no number saved.</p>`).join('')}</div>`}
+
+const views={
+welcome:()=>`<div style="padding-top:40px">${note?`<div class="card">${note}</div>`:''}<h1>MitraMind</h1><p style="font-size:1.25rem">A companion that learns how you like to be supported, so you don’t have to explain when things get hard.</p><p class="mu">Not a doctor, therapist or emergency service. You choose what it remembers.</p>${btn('start','','Get started')}<label class="btn sec" style="cursor:pointer">I have a backup file<input id="rf" type="file" accept=".json,application/json" hidden></label></div>`,
+
+onboard:()=>{const t=tmp;return `<h2>Let’s get to know you</h2><p class="mu">Share only what you’re comfortable with. You can edit everything later.</p>
+<label>Name or nickname<input id="nm" value="${esc(t.name||'')}" autocomplete="off"></label>
+<label>I’m mostly<select id="rl">${['A student','Working','Both','Something else'].map(o=>`<option ${t.role===o?'selected':''}>${o}</option>`).join('')}</select></label>
+<h3>What do you usually notice first when a difficult moment is starting?</h3>${chips('signs',SIGNS,t.signs)}
+<h3>How should I support you?</h3>${chips('support',SUP,t.support)}
+<h3>What should I avoid when you’re struggling?</h3>${chips('avoid',AVOID,t.avoid)}
+<h3>People you trust (optional, up to 3)</h3><p class="mu">Later you can say “call Mom” in chat and the dialer opens with her number.</p>${[0,1,2].map(i=>`<div class="two"><input id="tn${i}" placeholder="Name, e.g. Mom" value="${esc((t.cs[i]||{}).name||'')}"><input id="tc${i}" placeholder="Phone number" inputmode="tel" value="${esc((t.cs[i]||{}).contact||'')}"></div>`).join('')}
+${btn('saveplan','','Save my Calm Plan')}`},
+
+home:()=>`<h2>Hi ${nm()}. How are you feeling right now?</h2>${note?`<div class="card">${note}</div>`:''}
+<button class="mood" style="background:var(--g)" data-act="mood" data-v="ok">🟢 I’m okay</button>
+<button class="mood" style="background:var(--y)" data-act="mood" data-v="start">🟡 Something’s starting</button>
+<button class="mood" style="background:var(--r)" data-act="mood" data-v="over">🔴 I’m overwhelmed</button>
+<button class="mood" style="background:var(--b)" data-act="mood" data-v="need">🔵 I need someone</button>
+<button class="mood" style="background:var(--w)" data-act="mood" data-v="dk">⚪ I don’t know</button>`,
+
+distress:()=>{const d=D;let h='<div class="focus'+(d.key==='sleep'?' dim':'')+'">';
+ if(d.stage==='pick')h+=`<div class="big">I’m here.<br>You don’t need to explain everything.</div>${NOW.map(x=>btn('sign',x,esc(x),'sec')).join('')}${btn('cant','','I can’t explain what’s happening')}`;
+ else if(d.stage==='cant')h+=`<div class="big">That’s okay. You don’t have to explain it right now.</div>${btn('cantopt','ground','Help me ground myself','sec')}${btn('cantopt','stay','Just stay with me','sec')}${btn('cantopt','talk','Let me talk','sec')}${btn('cantopt','reach','Help me reach someone','sec')}`;
+ else if(d.stage==='reach')h+=`<div class="big">Let’s get you to a person.</div>${reach()}${btn('home','','Back to home','sec')}`;
+ else if(d.stage==='steps'){const s=lines(d),last=d.i===s.length-1,stay=last&&d.key==='talk',orb=['breathe','stay','sleep'].includes(d.key);h+=`${orb?'<div class="orb"></div>':''}<div class="big">${esc(s[d.i])}</div>${d.paused||stay?'':`<div class="prog" style="animation-duration:${dur(d.key)}ms"></div>`}${stay?btn('chat','','Open chat'):''}<div class="two">${btn('pause','',d.paused?'Continue':'Pause','sec')}${btn('next','',last?'I’m done':'Skip','sec')}</div>`}
+ else if(d.stage==='after')h+=`<div class="big">How are you feeling now?</div>${['Much better','A little better','About the same','Worse'].map(x=>btn('after',x,x,'sec')).join('')}${btn('after','I’m going to sleep','I want to sleep','sec')}`;
+ else if(d.stage==='esc')h+=`<div class="big">${esc(d.msg)}</div>${reach()}${btn('cont','','Keep going with me')}${btn('after','I’m going to sleep','I’d like to sleep','sec')}`;
+ else if(d.stage==='closing')h+=`<div class="big">I’m glad you’re feeling steadier, ${nm()}. You got through that. If it starts again, I’m one tap away.</div><div class="card"><b>For the next little while</b><ul><li>Have some water</li><li>Rest if you can</li><li>Be gentle with yourself</li></ul></div>${btn('stayon','','Stay with me a bit longer','sec')}${btn('home','','Go to home')}`;
+ else if(d.stage==='sleepdone')h+=`<div class="big">Goodnight, ${nm()}.<br>I’m here if you need me.</div>${btn('home','','Close','sec')}`;
+ else if(d.stage==='helped')h+=`<div class="big">What helped?</div>${d.after==='Worse'?reach():''}${HELP.map(([k,l])=>btn('helped',k,l,'sec')).join('')}`;
+ return h+`<p class="mu" style="text-align:center"><a href="#" data-act="nav" data-v="safety">Need real-world help? See safety</a> · <a href="#" data-act="home">Leave</a></p></div>`},
+
+chat:()=>{if(!chat.length)chat=[{r:'b',t:`Hi ${S.profile.name}. I’m here. What’s on your mind?`}];
+ return `<h2>Talk</h2><div>${chat.map(m=>`<div class="bub ${m.r}">${esc(m.t)}</div>${(m.b||[]).map(([l,a,x])=>btn(a,x,esc(l),'sec')).join('')}${m.safe?btn('nav','safety','See help options'):''}${m.tel?`<a class="btn" href="tel:${m.tel}">📞 ${esc(m.tl)}</a>`:''}${m.reach?reach():''}`).join('')}</div><div class="row"><input id="ci" placeholder="Type here" autocomplete="off"><button class="btn sec" data-act="mic" aria-label="Speak">🎤</button><button class="btn" data-act="send">Send</button></div><p class="mu" style="font-size:.9rem">Try “call Mom”, or tap 🎤 and say it. Prototype replies are rule-based. An LLM connects here later, behind the safety checks.</p>`},
+
+plan:()=>{const L=(a,f)=>a.length?`<ul>${a.map(x=>`<li>${esc(f?f(x):x)}</li>`).join('')}</ul>`:'<p class="mu">Not set</p>';
+ return `<h2>My Calm Plan</h2><div class="card"><b>My early signs</b>${L(S.signs)}<b>What helps</b>${L(S.support,k=>SUP.find(s=>s[0]===k)[1])}<b>What I don’t like</b>${L(S.avoid)}<b>Trusted people</b>${L(S.contacts,c=>c.name)}</div>${btn('edit','','Edit my plan')}`},
+
+patterns:()=>{const E=S.episodes;if(!E.length)return `<h2>My Patterns</h2><div class="card">No logged moments yet. After a difficult moment, tell MitraMind what helped and patterns will show up here.</div>`;
+ const cnt=(f)=>{const c={};E.forEach(e=>{const k=f(e);if(k)c[k]=(c[k]||0)+1});return Object.entries(c).sort((a,b)=>b[1]-a[1])};
+ const bars=a=>a.map(([k,n])=>`<div>${esc(k)} · ${n}</div><div class="bar" style="width:${n/E.length*100}%"></div>`).join('');
+ const h=cnt(e=>e.helped&&e.helped!=='none'&&e.after!=='Worse'?HELP.find(x=>x[0]===e.helped)[1]:0),top=h[0];
+ return `<h2>My Patterns</h2><p class="mu">Based only on what you’ve logged. These aren’t medical conclusions.</p>${top?`<div class="card"><b>${esc(top[0])} has been one of the strategies you’ve found helpful.</b></div>`:''}<div class="card"><b>Signs you’ve reported</b>${bars(cnt(e=>e.sign))}</div><div class="card"><b>What helped</b>${bars(cnt(e=>e.helped?HELP.find(x=>x[0]===e.helped)[1]:0))}</div><p class="mu">${E.length} logged moment${E.length>1?'s':''}</p>`},
+
+privacy:()=>`<h2>Privacy</h2><div class="card"><p>Everything stays in this browser on this device. Nothing is sent anywhere, and nobody else can see it unless you choose to share it.</p><p>You can edit your plan any time, or remove what MitraMind remembers.</p></div><div class="card"><b>Back up or move my data</b><p class="mu">Your data is saved in this browser, so you don’t have to enter it again. A backup file lets you restore it if you switch phone or browser, or clear your browser data.</p>${btn('backup','','Download a backup','sec')}<label class="btn sec" style="cursor:pointer">Restore from a backup<input id="rf" type="file" accept=".json,application/json" hidden></label></div><div class="card"><b>Share with someone I trust</b><p class="mu">Only if you want to. Nothing leaves this device unless you tap a button here, and you pick what’s included.</p>
+<label><input type="checkbox" id="s1" style="width:auto;margin:0 8px 0 0" checked>My Calm Plan</label>
+<label><input type="checkbox" id="s2" style="width:auto;margin:0 8px 0 0" checked>What has helped</label>
+<label><input type="checkbox" id="s3" style="width:auto;margin:0 8px 0 0">Each logged moment</label>
+${btn('share','','Share…')}${btn('wa','','Send on WhatsApp','sec')}${btn('copy','','Copy text','sec')}</div>${btn('clearep','','Delete my logged moments','sec')}${btn('wipe','','Delete everything I’ve shared','sec')}<details class="card"><summary>See what is stored</summary><pre style="white-space:pre-wrap;font-size:.8rem">${esc(JSON.stringify(S,null,1))}</pre></details>`,
+
+safety:()=>`<h2>Safety</h2><div class="card"><p>MitraMind can’t diagnose what’s happening or tell whether something is a medical emergency.</p><p>If you may be in danger, are thinking about harming yourself, or have severe or unusual physical symptoms, contact someone near you or emergency services now.</p><ul><li>Emergency, India: <b>112</b></li><li>Tele-MANAS mental health helpline, India: <b>14416</b></li></ul><p class="mu">Elsewhere, use your local emergency number. Please check that these numbers are current before launch.</p></div>${reach()}`
+};
+
+function render(){
+ const hide=['welcome','distress'].includes(v)||(v==='onboard'&&!S.profile);
+ $('#nav').innerHTML=hide?'':`<nav>${[['home','Home'],['chat','Chat'],['plan','Calm Plan'],['patterns','Patterns'],['privacy','Privacy'],['safety','Safety']].map(([k,l])=>`<button data-act="nav" data-v="${k}" class="${v===k?'on':''}">${l}</button>`).join('')}</nav>`;
+ document.body.classList.toggle('night',v==='distress'&&!!D&&D.key==='sleep');$('#app').innerHTML=(canSave?'':'<div class="card">Your browser isn’t letting this page save data, so you’d have to enter it again next time. Open it through Live Server or a normal (not private) window, and use Download a backup in Privacy.</div>')+views[v]();scrollTo(0,0);adv()}
+function go(x){v=x;note='';render()}
+let timer;const dur=k=>({breathe:6500,stay:6000,sleep:7500}[k]||4500);
+const newD=(sign,key)=>({stage:'steps',sign,key,i:0,rounds:0,tried:[key],hist:[],paused:false});
+const lines=d=>(d.rounds&&d.key!=='sleep'?[d.rounds>1?'Still here with you.':'That’s okay. We’ll keep going together.']:[]).concat(SCRIPT[d.key]);
+function nextKey(d){return[pick(d.sign),...S.support,'breathe','stay','ground','comfort'].filter(k=>k!=='talk'&&k!=='focus').find(k=>!d.tried.includes(k))||'stay'}
+function nextRound(){D.key=nextKey(D);D.tried.push(D.key);D.i=0;D.paused=false;D.stage='steps';render()}
+function finish(h){if(!D||D.saved)return;D.saved=1;S.episodes.push({t:Date.now(),sign:D.sign,tried:D.tried,strategy:D.tried[0],after:D.after||D.hist[D.hist.length-1]||'',helped:h});save()}
+function leave(){if(D&&D.hist&&D.hist.length&&!D.saved)finish(null);D=null}
+function stepDone(){const n=lines(D).length;if(D.i<n-1)D.i++;else if(D.key==='sleep'){D.after='Sleep';finish('sleep');D.stage='sleepdone'}else D.stage='after';render()}
+function adv(){clearTimeout(timer);if(v!=='distress'||!D||D.stage!=='steps'||D.paused)return;if(D.key==='talk'&&D.i===lines(D).length-1)return;
+ timer=setTimeout(()=>{if(v!=='distress'||!D||D.stage!=='steps'||D.paused)return;stepDone()},dur(D.key))}
+
+const TOP=[
+[/\b(?:sleep|insomnia|awake|exhaust|so tired|can.?t rest)/,'Being this worn out makes everything feel heavier.',['Want to wind down together?','We can wind down together.'],[['Help me wind down','mood','k:sleep']]],
+[/\b(?:exam|study|test|assignment|deadline|work|boss|interview|project|college|class|marks|submission)/,'That sounds like a lot of pressure.',['What’s the next tiny piece, even five minutes’ worth?','Try picking just the next five-minute piece.'],[['Help me focus','mood','k:focus']]],
+[/\b(?:lonely|alone|no one|nobody|isolated)/,'Feeling alone really hurts, and I’m glad you said it.',['Would it help to reach someone you trust?','Reaching someone you trust can help, if you want.'],[['Reach someone','mood','need']]],
+[/\b(?:racing|can.?t stop thinking|overthink|thoughts)/,'Racing thoughts are exhausting.',['Want to slow them with one small thing?','One small thing can slow them down.'],[['Ground me','mood','k:ground']]],
+[/\b(?:focus|concentrat)/,'It’s hard to focus when your mind is this full.',['Want to try one tiny task?','One tiny task can help.'],[['Help me focus','mood','k:focus']]],
+[/\b(?:sad|cry|crying|empty|hopeless|worthless|feeling down|feel down|so low|feeling low)/,'I’m sorry it feels so heavy. You don’t have to push through right now.',['Would you like company, or a distraction?','I can keep you company, or give you a distraction.'],[['Just stay with me','mood','k:stay'],['Distract me','mood','k:distract']]],
+[/\b(?:angry|frustrat|annoy|irritat|furious)/,'That frustration makes sense.',['Want to let it settle for a moment?','We can let it settle for a moment.'],[['Help me settle','mood','k:ground']]],
+[/\b(?:head|hurts|ache|pain|shak|trembl|heart.?(?:rac|pound|beat)|dizzy|nause|stomach|tight)/,'Those sensations can be really uncomfortable. I can’t tell what’s causing them, and if anything feels severe or unusual, please get medical help.',['Want to try grounding for the tension?','Grounding can sometimes ease tension.'],[['Ground me','mood','k:ground']]],
+[/\b(?:don.?t know|dunno|idk|can.?t explain|no words|not sure)/,'That’s okay. You don’t need the words.',['Want to just do something small together?','We can just do something small together.'],[['Ground me','mood','k:ground'],['Just stay with me','mood','k:stay']]],
+[/\b(?:better|calmer|okay now|i.?m fine|thank)/,'I’m really glad. Go gently with yourself.',['',''],[]],
+[/^(?:hi|hello|hey|hii+)\b/,'Hi. I’m here.',['How are you feeling?','Tell me as much or as little as you like.'],[]]];
+const FB=['I hear you.','That sounds really hard. I’m staying right here.','Thank you for telling me. Take your time.','Okay. I’m listening, no rush.'];
+function callReq(m){const l=m.toLowerCase();if(!/\b(call|phone|ring|dial)\b/.test(l))return null;
+ if(/(ambulance|police|112)/.test(l))return{t:'Opening the dialer for emergency services (112).',tel:'112',tl:'Call 112'};
+ const c=S.contacts.find(c=>l.includes(c.name.toLowerCase()));
+ if(!c&&!/(call|phone|ring|dial)\s+(someone|anyone|somebody|my|a friend|for help|help)/.test(l)&&!/^\s*(call|phone|dial)\s+\w/.test(l))return null;
+ if(c&&num(c))return{t:`Opening the dialer to call ${c.name}.`,tel:num(c),tl:`Call ${c.name}`};
+ if(c)return{t:`I don’t have a number saved for ${c.name}. You can add it in My Calm Plan.`};
+ return{t:S.contacts.length?'Who would you like to call? Tap a name.':'You haven’t added anyone yet. You can add people in My Calm Plan.',reach:1}}
+function summary(){const o=[`MitraMind summary from ${S.profile.name}`];
+ if($('#s1').checked)o.push('Early signs: '+(S.signs.join(', ')||'-'),'What helps: '+(S.support.map(k=>SUP.find(x=>x[0]===k)[1]).join(', ')||'-'),'Please avoid: '+(S.avoid.join(', ')||'-'));
+ if($('#s2').checked){const h={};S.episodes.forEach(e=>{if(e.helped&&e.helped!=='none'&&e.after!=='Worse'){const l=HELP.find(x=>x[0]===e.helped)[1];h[l]=(h[l]||0)+1}});o.push('What has helped: '+(Object.entries(h).map(([k,n])=>k+' ('+n+')').join(', ')||'-'))}
+ if($('#s3').checked)o.push('Logged moments:',...S.episodes.map(e=>new Date(e.t).toLocaleString()+': '+e.sign+' > '+e.after));
+ return o.join('\n')}
+function reply(m){const l=m.toLowerCase();
+ if(/suicid|kill myself|end my life|hurt myself|self.?harm|want to die|no point (?:in )?living|don.?t want to (?:live|be here)|chest pain|can.?t breathe|overdose/.test(l))return{t:'I’m glad you told me. I can’t judge how serious this is, and you deserve real support right now. Please contact someone you trust or emergency services (112 in India).',safe:1,reach:1};
+ if(/panic|overwhelm|anxious|scared|can.?t cope|can.?t calm|spiral|freaking out/.test(l))return{t:'I’m here. You don’t have to explain. Let’s do one small thing.',b:[['Ground me','mood','k:ground'],['Just stay with me','mood','k:stay']]};
+ const noQ=S.avoid.includes('Too many questions'),sh=S.avoid.includes('Long explanations');
+ for(const[re,a,f,b]of TOP)if(re.test(l)){const q=noQ?f[1]:f[0];return{t:sh&&!/medical/.test(a)?a.split(/(?<=\.) /)[0]:a+(q?' '+q:''),b}}
+ if(S.avoid.includes('Talking about the problem immediately'))return{t:'I’m here with you. We don’t have to get into it. We can just do something small.',b:[['Ground me','mood','k:ground'],['Just stay with me','mood','k:stay']]};
+ return{t:FB[(chat.length>>1)%FB.length],b:[]}}
+
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;e.preventDefault();const a=b.dataset.act,x=b.dataset.v;
+ if(a==='chip'){const g=b.dataset.g,i=tmp[g].indexOf(x);i<0?tmp[g].push(x):tmp[g].splice(i,1);b.classList.toggle('on');return}
+ if(a==='start'||a==='edit'){const p=S.profile||{};tmp={name:p.name,role:p.role,signs:[...S.signs],support:[...S.support],avoid:[...S.avoid],cs:S.contacts};return go('onboard')}
+ if(a==='saveplan'){const n=$('#nm').value.trim()||'Friend';S.profile={name:n,role:$('#rl').value};S.signs=tmp.signs;S.support=tmp.support;S.avoid=tmp.avoid;S.contacts=[0,1,2].map(i=>({name:$('#tn'+i).value.trim(),contact:$('#tc'+i).value.trim()})).filter(c=>c.name);save();return go('home')}
+ if(a==='nav'){leave();return go(x)}
+ if(a==='home'){leave();return go('home')}
+ if(a==='mood'){if(x==='ok'){note='Glad you’re okay. This is a good time to check that your Calm Plan still fits you.';return render()}
+  if(x==='need'){D={stage:'reach'};v='distress';return render()}
+  if(x==='dk'){D={stage:'cant'};v='distress';return render()}
+  if(x.startsWith('k:')){D=newD('Mentioned in chat',x.slice(2));v='distress';return render()}
+  if(x==='over'){D=newD('Overwhelmed',pick('Overwhelmed'));v='distress';return render()}
+  D={stage:'pick'};v='distress';return render()}
+ if(a==='sign'){D=newD(x,pick(x));return render()}
+ if(a==='cant')return D.stage='cant',render();
+ if(a==='cantopt'){if(x==='reach')D.stage='reach';else D=newD('Couldn’t explain',x);return render()}
+ if(a==='next')return stepDone();
+ if(a==='chat'){leave();return go('chat')}
+ if(a==='pause'){D.paused=!D.paused;return render()}
+ if(a==='after'){D.hist.push(x);
+  if(x==='Much better'){D.after=x;D.stage='helped';return render()}
+  if(x==='I’m going to sleep'){D.after='Sleep';D.key='sleep';D.tried.push('sleep');D.i=0;D.paused=false;D.stage='steps';return render()}
+  D.rounds++;
+  if(x==='Worse'||D.rounds===3){D.msg=x==='Worse'?'I’m sorry it feels worse. You don’t have to handle this alone.':'We’ve tried a few things together. It may help to have a person with you.';D.stage='esc';return render()}
+  return nextRound()}
+ if(a==='cont')return nextRound();
+ if(a==='stayon'){D=newD(D.sign,'stay');return render()}
+ if(a==='helped'){finish(x);D.stage='closing';return render()}
+ if(a==='send'){const i=$('#ci'),m=i.value.trim();if(!m)return;chat.push({r:'u',t:m});const r=callReq(m)||reply(m);chat.push({r:'b',...r});if(r.tel)location.href='tel:'+r.tel;return render()}
+ if(a==='mic'){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){chat.push({r:'b',t:'Voice input isn’t supported in this browser. Try Chrome, or type instead.'});return render()}const rc=new R();rc.lang='en-IN';rc.onresult=ev=>{$('#ci').value=ev.results[0][0].transcript;$('[data-act=send]').click()};rc.start();b.textContent='🎤…';return}
+ if(a==='share'||a==='copy'||a==='wa'){const t=summary();
+  if(a==='wa')return void window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank');
+  if(a==='share'&&navigator.share)return void navigator.share({text:t}).catch(()=>{});
+  try{navigator.clipboard.writeText(t).then(()=>{b.textContent='Copied'})}catch(err){}return}
+ if(a==='backup'){const bl=new Blob([JSON.stringify(S)],{type:'application/json'}),u=URL.createObjectURL(bl),k=document.createElement('a');k.href=u;k.download='mitramind-backup.json';document.body.appendChild(k);k.click();k.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);return}
+ if(a==='clearep'){S.episodes=[];save();return go('patterns')}
+ if(a==='wipe'){S=fresh();try{localStorage.removeItem(K)}catch(e){}chat=[];return go('welcome')}
+});
+document.addEventListener('change',e=>{if(e.target.id!=='rf')return;const f=e.target.files[0];if(!f)return;const fr=new FileReader();
+ fr.onload=()=>{try{const d=JSON.parse(fr.result);if(!d||typeof d!=='object'||!Array.isArray(d.episodes))throw 0;S=Object.assign(fresh(),d);delete S.trusted;['signs','support','avoid','episodes','contacts'].forEach(k=>{if(!Array.isArray(S[k]))S[k]=[]});save();v=S.profile?'home':'welcome';note='Your data is back.'}catch(x){note='That file didn’t look like a MitraMind backup.'}render()};fr.readAsText(f)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='ci')$('[data-act=send]').click()});
+render();
+</script></body></html>
